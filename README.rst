@@ -27,6 +27,11 @@ You could start AusweisApp2 with this command:
   This is necessary to allow localhost links in browser to start eID activation.
 
 
+If you are not familiar with Docker. You can add ``-d`` to ``docker run`` to detach from terminal and avoid logging
+of AusweisApp2. After you created a container and stopped it you can start it with ``docker start ausweisapp`` if
+you used the provided name.
+
+
 
 Troubleshooting
 ---------------
