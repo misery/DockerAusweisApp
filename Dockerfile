@@ -20,7 +20,7 @@ USER ausweisapp
 # Build AusweisApp2
 # Clean up unused stuff
 # Remove development stuff
-RUN sudo apk --no-cache add cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python2 wget \
+RUN sudo apk --no-cache --virtual deps add cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python2 wget \
                         mesa-dev libx11-dev libxkbcommon-dev xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
                         libxkbcommon-dev fontconfig-dev freetype-dev && \
     \
@@ -46,9 +46,7 @@ RUN sudo apk --no-cache add cmake make g++ pkgconf pcsc-lite-dev binutils-gold p
     rm -rf libQt5Designer* libQt5Help* libQt5Nfc* libQt5Sensors* libQt5Sql* libQt5Test* libQt5Multimedia* libQt5CLucene* && \
     strip *.so && \
     \
-    sudo apk --no-cache del cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python2 wget \
-                            mesa-dev libx11-dev libxkbcommon-dev xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
-                            libxkbcommon-dev fontconfig-dev freetype-dev
+    sudo apk --no-cache del deps
 
 
 ENTRYPOINT ["/sbin/tini", "--"]
