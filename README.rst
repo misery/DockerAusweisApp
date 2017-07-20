@@ -18,7 +18,7 @@ You could start AusweisApp2 with this command:
    docker run --name ausweisapp -e DISPLAY=$DISPLAY -e LANG=$LANG -v /tmp/.X11-unix:/tmp/.X11-unix --privileged --net=host aklitzing/ausweisapp2
 
 
-- **--privileged** is required for pcscd to access card reader.
+- **--privileged** is required for *pcscd* to access card reader.
   You could try to bind usb devices to container with ``-v /dev/bus/usb:/dev/bus/usb`` instead.
   Be aware that the usb device must be connected *before* the container is started! This is a limitation by ``-v``.
 
@@ -36,26 +36,32 @@ you used the provided name.
 Troubleshooting
 ---------------
 - I need a proxy
-   - Just add ``-e http_proxy=PROXY:PORT -e https_proxy=PROXY:PORT`` to docker run cmdline.
+   - Just add ``-e http_proxy=PROXY:PORT -e https_proxy=PROXY:PORT`` to ``docker run`` cmdline.
+
 
 - I need AusweisApp2 in English or German.
    - Change ``-e LANG=$LANG`` to ``-e LANG=de`` or ``-e LANG=en``.
 
+
 - Window of AusweisApp2 is black/faulted.
-   - Looks like an OpenGL issue. Try to grab the border of the window an resize it.
+   - Looks like an OpenGL issue. Try to grab the border of the window and resize it.
      Sometimes it will refresh the buffers and repaint the window correctly.
+
 
 - Container ends immediately
    - Maybe you need to allow local access to your X-Server by ``xhost local:root``.
+
 
 - My card reader is not recognized
    - The container has ``ccid`` and ``pcsc-cyberjack`` drivers installed.
      Try to install another driver by your own and tell me how you did it.
      So I can add it to AlpineLinux and to next docker images. See next bullet point.
 
+
 - I need to modify container
    - You can jump into a shell of running container with ``docker exec -ti ausweisapp /bin/sh``
      and modify it by your needs. You can use ``sudo`` as well without a password to get root access.
+
 
 - Is this an official version?
    - NO! You cannot ask Governikus for support!
