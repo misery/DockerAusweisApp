@@ -58,6 +58,10 @@ Troubleshooting
 - Container ends immediately
    - Maybe you need to allow local access to your X-Server by ``xhost local:root``.
 
+        | No protocol specified
+        | QXcbConnection: Could not connect to display :0
+        | Aborted (core dumped)
+
 
 - My card reader is not recognized
    - The container has ``ccid`` and ``pcsc-cyberjack`` drivers installed.
@@ -65,9 +69,11 @@ Troubleshooting
      So I can add it to AlpineLinux and to next docker images. See next bullet point.
 
 
-- I need to modify container
+- I need to modify the container
    - You can jump into a shell of running container with ``docker exec -ti ausweisapp /bin/sh``
      and modify it by your needs. You can use ``sudo`` as well without a password to get root access.
+
+   - Also you could derive your own Dockerfile from this image by ``FROM aklitzing/ausweisapp2``.
 
 
 - Is this an official version?
