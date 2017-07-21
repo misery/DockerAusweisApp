@@ -1,3 +1,10 @@
+.. image:: https://img.shields.io/badge/license-EUPL_v1.2-blue.svg
+   :target: https://raw.githubusercontent.com/misery/DockerAusweisApp2/master/LICENSE.txt
+
+.. image:: https://images.microbadger.com/badges/image/aklitzing/ausweisapp2.svg
+   :target: https://microbadger.com/images/aklitzing/ausweisapp2
+
+
 AusweisApp2 in Docker (Linux)
 =============================
 This docker image contains a minimal OS (AlpineLinux) as a base image.
