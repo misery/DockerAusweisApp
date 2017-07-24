@@ -4,6 +4,9 @@
 .. image:: https://images.microbadger.com/badges/image/aklitzing/ausweisapp2.svg
    :target: https://microbadger.com/images/aklitzing/ausweisapp2
 
+.. image:: https://img.shields.io/docker/pulls/aklitzing/ausweisapp2.svg
+   :target: https://hub.docker.com/r/aklitzing/ausweisapp2/
+
 
 AusweisApp2 in Docker (Linux)
 =============================
