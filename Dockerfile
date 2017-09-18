@@ -6,7 +6,7 @@ ENV VERSION=1.12.2 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --no-cache upgrade -a && \
-    apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack@testing \
+    apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack@testing acsccid@testing \
                        libxkbcommon xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
                        mesa mesa-gl libx11 xkeyboard-config fontconfig freetype ttf-dejavu sudo && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \

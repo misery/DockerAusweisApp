@@ -67,7 +67,7 @@ Troubleshooting
 
 
 - My card reader is not recognized
-   - The container has ``ccid`` and ``pcsc-cyberjack`` drivers installed.
+   - The container has ``ccid``, ``pcsc-cyberjack`` and ``acsccid`` drivers installed.
      Try to install another driver by your own and tell me how you did it.
      So I can add it to AlpineLinux and to next docker images. See next bullet point.
 
