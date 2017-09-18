@@ -1,7 +1,7 @@
 FROM alpine:3.6
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.12.2 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.12.3 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
@@ -20,13 +20,16 @@ USER ausweisapp
 # Build AusweisApp2
 # Clean up unused stuff
 # Remove development stuff
-RUN sudo apk --no-cache --virtual deps add cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python2 wget \
+RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python2 wget \
                         mesa-dev libx11-dev libxkbcommon-dev xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
                         libxkbcommon-dev fontconfig-dev freetype-dev && \
     \
     cd ~ && mkdir build && cd build && \
     wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp2-${VERSION}.tar.gz && \
+    wget https://github.com/Governikus/AusweisApp2/commit/38c4245d1c108d6348dbb9d133fe326b650e49b3.patch && \
     cmake -E tar xf AusweisApp2-${VERSION}.tar.gz && \
+    cd AusweisApp2-${VERSION} && \
+    patch -p1 -i ../38c4245d1c108d6348dbb9d133fe326b650e49b3.patch && \
     \
     cd ~/build && mkdir libs && cd libs && \
     cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=release -DDESTINATION_DIR=/home/ausweisapp/libs && \
@@ -43,7 +46,7 @@ RUN sudo apk --no-cache --virtual deps add cmake make g++ pkgconf pcsc-lite-dev 
     rm -rf include bin doc mkspecs translations phrasebooks ssl qml && \
     cd lib && \
     rm -rf pkgconfig cmake *.a *.la *.prl && \
-    rm -rf libQt5Designer* libQt5Help* libQt5Nfc* libQt5Sensors* libQt5Sql* libQt5Test* libQt5Multimedia* libQt5CLucene* && \
+    rm -rf libQt5Designer* libQt5Help* libQt5Nfc* libQt5Sensors* libQt5Sql* libQt5Test* libQt5Multimedia* libQt5CLucene* libQt5Bluetooth* && \
     strip *.so && \
     \
     sudo apk --no-cache del deps
