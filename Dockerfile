@@ -1,7 +1,7 @@
 FROM alpine:3.6
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.12.3 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.12.4 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
@@ -26,10 +26,7 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lit
     \
     cd ~ && mkdir build && cd build && \
     wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp2-${VERSION}.tar.gz && \
-    wget https://github.com/Governikus/AusweisApp2/commit/38c4245d1c108d6348dbb9d133fe326b650e49b3.patch && \
     cmake -E tar xf AusweisApp2-${VERSION}.tar.gz && \
-    cd AusweisApp2-${VERSION} && \
-    patch -p1 -i ../38c4245d1c108d6348dbb9d133fe326b650e49b3.patch && \
     \
     cd ~/build && mkdir libs && cd libs && \
     cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=release -DDESTINATION_DIR=/home/ausweisapp/libs && \
