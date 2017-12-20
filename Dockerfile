@@ -1,12 +1,12 @@
-FROM alpine:3.6
+FROM alpine:3.7
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.12.4 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.14.0 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --no-cache upgrade -a && \
-    apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack@testing acsccid@testing \
+    apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid \
                        libxkbcommon xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
                        mesa mesa-gl libx11 xkeyboard-config fontconfig freetype ttf-dejavu sudo && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
@@ -35,7 +35,7 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lit
     cd ~/build && mkdir aa2 && cd aa2 && \
     cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs && \
     make && \
-    cd src && mv AusweisApp2 AusweisApp2.rcc config.json default-providers.json translations ~ && \
+    cd src && mv AusweisApp2 AusweisApp2.rcc config.json translations ~ && \
     \
     cd ~ && rm -rf build && \
     strip AusweisApp2 && \
