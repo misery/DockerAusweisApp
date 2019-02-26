@@ -1,7 +1,7 @@
-FROM alpine:3.8
+FROM alpine:3.9
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.14.3 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.16.1 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
