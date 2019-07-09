@@ -1,14 +1,14 @@
-FROM alpine:3.9
+FROM alpine:3.10
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.16.1 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.18.2 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --no-cache upgrade -a && \
     apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid \
                        libxkbcommon xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
-                       mesa mesa-gl libx11 xkeyboard-config fontconfig freetype ttf-dejavu sudo && \
+                       mesa mesa-gl libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 sudo && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
     adduser ausweisapp -G wheel -s /bin/sh -D
 

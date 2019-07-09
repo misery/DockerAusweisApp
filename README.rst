@@ -66,6 +66,10 @@ Troubleshooting
         | Aborted (core dumped)
 
 
+- Container ends with ``Could not load the Qt platform plugin "xcb" in "" even though it was found.``
+   - Add ``-e QT_DEBUG_PLUGINS=1`` to get more logging of Qt.
+
+
 - My card reader is not recognized
    - The container has ``ccid``, ``pcsc-cyberjack`` and ``acsccid`` drivers installed.
      Try to install another driver by your own and tell me how you did it.
