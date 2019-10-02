@@ -29,11 +29,11 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lit
     cmake -E tar xf AusweisApp2-${VERSION}.tar.gz && \
     \
     cd ~/build && mkdir libs && cd libs && \
-    cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=release -DDESTINATION_DIR=/home/ausweisapp/libs && \
+    cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=Release -DDESTINATION_DIR=/home/ausweisapp/libs && \
     make && \
     \
     cd ~/build && mkdir aa2 && cd aa2 && \
-    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=release -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs && \
+    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs && \
     make && \
     cd src && mv AusweisApp2 AusweisApp2.rcc config.json translations ~ && \
     \
