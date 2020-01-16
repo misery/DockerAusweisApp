@@ -1,7 +1,7 @@
-FROM alpine:3.10
+FROM alpine:3.11
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.18.2 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.20.0 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
@@ -20,7 +20,7 @@ USER ausweisapp
 # Build AusweisApp2
 # Clean up unused stuff
 # Remove development stuff
-RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python2 wget \
+RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python wget \
                         mesa-dev libx11-dev libxkbcommon-dev xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
                         libxkbcommon-dev fontconfig-dev freetype-dev && \
     \
