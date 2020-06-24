@@ -1,7 +1,7 @@
-FROM alpine:3.11
+FROM alpine:3.12
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
-ENV VERSION=1.20.0 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.20.1 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
@@ -20,7 +20,7 @@ USER ausweisapp
 # Build AusweisApp2
 # Clean up unused stuff
 # Remove development stuff
-RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python wget \
+RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python3 wget \
                         mesa-dev libx11-dev libxkbcommon-dev xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
                         libxkbcommon-dev fontconfig-dev freetype-dev && \
     \
@@ -33,14 +33,12 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lit
     make && \
     \
     cd ~/build && mkdir aa2 && cd aa2 && \
-    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs && \
-    make && \
-    cd src && mv AusweisApp2 AusweisApp2.rcc config.json translations ~ && \
+    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON && \
+    make && sudo make install && \
     \
     cd ~ && rm -rf build && \
-    strip AusweisApp2 && \
     cd libs && \
-    rm -rf include bin doc mkspecs translations phrasebooks ssl qml && \
+    rm -rf include bin doc mkspecs translations phrasebooks ssl && \
     cd lib && \
     rm -rf pkgconfig cmake *.a *.la *.prl && \
     rm -rf libQt5Designer* libQt5Help* libQt5Nfc* libQt5Sensors* libQt5Sql* libQt5Test* libQt5Multimedia* libQt5CLucene* libQt5Bluetooth* && \
@@ -50,4 +48,4 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lit
 
 
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD /usr/sbin/pcscd && /home/ausweisapp/AusweisApp2
+CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp2
