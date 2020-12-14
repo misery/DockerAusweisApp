@@ -7,7 +7,7 @@ ENV VERSION=1.22.0 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --no-cache upgrade -a && \
     apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid \
-                       libxkbcommon xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
+                       libxkbcommon libxcb xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
                        mesa mesa-gl libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 sudo && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
     adduser ausweisapp -G wheel -s /bin/sh -D
@@ -21,8 +21,9 @@ USER ausweisapp
 # Clean up unused stuff
 # Remove development stuff
 RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python3 wget \
-                        mesa-dev libx11-dev libxkbcommon-dev xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
-                        libxkbcommon-dev fontconfig-dev freetype-dev && \
+                        mesa-dev libx11-dev libxkbcommon-dev fontconfig-dev freetype-dev \
+                        xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
+                        xcb-util-renderutil-dev libxcb-dev && \
     \
     cd ~ && mkdir build && cd build && \
     wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp2-${VERSION}.tar.gz && \
