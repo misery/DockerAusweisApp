@@ -20,7 +20,7 @@ USER ausweisapp
 # Build AusweisApp2
 # Clean up unused stuff
 # Remove development stuff
-RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lite-dev binutils-gold perl python3 wget \
+RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pcsc-lite-dev binutils-gold perl python3 wget \
                         mesa-dev libx11-dev libxkbcommon-dev fontconfig-dev freetype-dev \
                         xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
                         xcb-util-renderutil-dev libxcb-dev && \
@@ -31,11 +31,11 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make g++ pkgconf pcsc-lit
     \
     cd ~/build && mkdir libs && cd libs && \
     cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=Release -DDESTINATION_DIR=/home/ausweisapp/libs && \
-    make && \
+    cmake --build . -v  && \
     \
     cd ~/build && mkdir aa2 && cd aa2 && \
-    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON && \
-    make && sudo make install && \
+    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON -GNinja && \
+    cmake --build . -v && sudo cmake --install . && \
     \
     cd ~ && rm -rf build && \
     cd libs && \
