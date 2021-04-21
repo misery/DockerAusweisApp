@@ -27,7 +27,10 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
     \
     cd ~ && mkdir build && cd build && \
     wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp2-${VERSION}.tar.gz && \
+    wget https://github.com/Governikus/AusweisApp2/commit/08d15199489e13b084fa515a6490787bcf3414fb.patch && \
     cmake -E tar xf AusweisApp2-${VERSION}.tar.gz && \
+    cd AusweisApp2-${VERSION} && \
+    patch -p1 -i ../08d15199489e13b084fa515a6490787bcf3414fb.patch && \
     \
     cd ~/build && mkdir libs && cd libs && \
     cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=Release -DDESTINATION_DIR=/home/ausweisapp/libs && \
