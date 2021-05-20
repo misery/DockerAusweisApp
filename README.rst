@@ -1,9 +1,6 @@
 .. image:: https://img.shields.io/badge/license-EUPL_v1.2-blue.svg
    :target: https://raw.githubusercontent.com/misery/DockerAusweisApp2/master/LICENSE.txt
 
-.. image:: https://images.microbadger.com/badges/image/aklitzing/ausweisapp2.svg
-   :target: https://microbadger.com/images/aklitzing/ausweisapp2
-
 .. image:: https://img.shields.io/docker/pulls/aklitzing/ausweisapp2.svg
    :target: https://hub.docker.com/r/aklitzing/ausweisapp2/
 
