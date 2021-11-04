@@ -25,7 +25,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          platforms: linux/amd64,linux/arm64,linux/arm
+          platforms: linux/amd64
           push: true
           tags: aklitzing/ausweisapp2:latest
       -
