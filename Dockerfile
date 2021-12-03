@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.15
 MAINTAINER André Klitzing <aklitzing@gmail.com>
 
 ENV VERSION=1.22.2 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
