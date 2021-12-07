@@ -9,6 +9,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            aklitzing/ausweisapp2
+          flavor: |
+            latest=false
+          tags: |
+            type=raw,value=latest
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
@@ -27,7 +41,8 @@ jobs:
         with:
           platforms: linux/amd64
           push: true
-          tags: aklitzing/ausweisapp2:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
