@@ -24,7 +24,7 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
                         xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
                         xcb-util-renderutil-dev libxcb-dev && \
     \
-    cd ~ && mkdir build && cd build && \
+    cd ~ && mkdir .config && mkdir build && cd build && \
     wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp2-${VERSION}.tar.gz && \
     cmake -E tar xf AusweisApp2-${VERSION}.tar.gz && \
     \
@@ -47,5 +47,6 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
     sudo apk --no-cache del deps
 
 
+VOLUME ["/home/ausweisapp/.config"]
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp2
