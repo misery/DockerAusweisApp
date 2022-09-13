@@ -1,13 +1,13 @@
 FROM alpine:3.16
 
-ENV VERSION=1.22.7 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=1.24.2 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --no-cache upgrade -a && \
     apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid eudev-libs \
                        libxkbcommon libxcb xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
-                       mesa mesa-gl mesa-dri-gallium mesa-dri-classic libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 sudo && \
+                       mesa mesa-gl mesa-egl mesa-dri-gallium mesa-dri-classic libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 sudo && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
     adduser ausweisapp -G wheel -s /bin/sh -D
 
@@ -41,7 +41,7 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
     rm -rf include bin doc mkspecs translations phrasebooks ssl && \
     cd lib && \
     rm -rf pkgconfig cmake *.a *.la *.prl && \
-    rm -rf libQt5Designer* libQt5Help* libQt5Nfc* libQt5Sensors* libQt5Sql* libQt5Test* libQt5Multimedia* libQt5CLucene* libQt5Bluetooth* && \
+    rm -rf libQt6Nfc* libQt6Test* libQt6QuickTest* libQt6Bluetooth* && \
     strip *.so && \
     \
     sudo apk --no-cache del deps
@@ -49,4 +49,4 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
 
 VOLUME ["/home/ausweisapp/.config"]
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp2
+CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp2 --address 0.0.0.0

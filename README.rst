@@ -9,7 +9,7 @@ AusweisApp2 in Docker (Linux)
 =============================
 This docker image contains a minimal OS (AlpineLinux) as a base image.
 
-It builds Qt5 and OpenSSL with the cmake library-script of AusweisApp2
+It builds Qt6 and OpenSSL with the cmake library-script of AusweisApp2
 and builds AusweisApp2 itself.
 
 Also it contains ``pcscd`` with some additional card reader driver.
@@ -22,16 +22,12 @@ You could start AusweisApp2 with this command:
 
 ::
 
-   docker run --name ausweisapp -e DISPLAY=$DISPLAY -e LANG=$LANG -v /tmp/.X11-unix:/tmp/.X11-unix --privileged --net=host aklitzing/ausweisapp2
+   docker run --name ausweisapp -p 127.0.0.1:24727:24727 -e DISPLAY=$DISPLAY -e LANG=$LANG -v /tmp/.X11-unix:/tmp/.X11-unix --privileged aklitzing/ausweisapp2
 
 
 - **--privileged** is required for *pcscd* to access card reader.
   You could try to bind usb devices to container with ``-v /dev/bus/usb:/dev/bus/usb`` instead.
   Be aware that the usb device must be connected *before* the container is started! This is a limitation by ``-v``.
-
-- **--net=host** is required to let the container bind to localhost of docker host system.
-  This could be patched later to let AusweisApp2 unbind from localhost and add ``-p 127.0.0.1:24727:24727`` to container.
-  This is necessary to allow localhost links in browser to start eID activation.
 
 
 If you are not familiar with Docker. You can add ``-d`` to ``docker run`` to detach from terminal and avoid logging
@@ -82,4 +78,6 @@ Troubleshooting
 
 - Is this an official version?
    - NO! You cannot ask Governikus for support!
+
+   - If you don't need a GUI you should try the official Container SDK: https://www.ausweisapp.bund.de/sdk/container.html
 
