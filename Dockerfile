@@ -1,4 +1,4 @@
-FROM alpine:3.17
+FROM alpine:3
 
 ENV VERSION=1.26.3 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
