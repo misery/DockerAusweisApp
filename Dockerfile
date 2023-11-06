@@ -14,9 +14,9 @@ RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/ap
 USER ausweisapp
 
 # Install development stuff
-# Get AusweisApp2
+# Get AusweisApp
 # Build Libraries
-# Build AusweisApp2
+# Build AusweisApp
 # Clean up unused stuff
 # Remove development stuff
 RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pcsc-lite-dev binutils-gold perl python3 wget \
@@ -25,15 +25,15 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
                         xcb-util-renderutil-dev libxcb-dev && \
     \
     cd ~ && mkdir .config && mkdir build && cd build && \
-    wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp2-${VERSION}.tar.gz && \
-    cmake -E tar xf AusweisApp2-${VERSION}.tar.gz && \
+    wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp-${VERSION}.tar.gz && \
+    cmake -E tar xf AusweisApp-${VERSION}.tar.gz && \
     \
     cd ~/build && mkdir libs && cd libs && \
-    cmake ../AusweisApp2-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=Release -DDESTINATION_DIR=/home/ausweisapp/libs && \
+    cmake ../AusweisApp-${VERSION}/libs/ -DCMAKE_BUILD_TYPE=Release -DDESTINATION_DIR=/home/ausweisapp/libs && \
     cmake --build . -v  && \
     \
     cd ~/build && mkdir aa2 && cd aa2 && \
-    cmake ../AusweisApp2-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON -GNinja && \
+    cmake ../AusweisApp-${VERSION}/ -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_PREFIX_PATH=/home/ausweisapp/libs -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON -GNinja && \
     cmake --build . -v && sudo cmake --install . && \
     \
     cd ~ && rm -rf build && \
@@ -49,4 +49,4 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
 
 VOLUME ["/home/ausweisapp/.config"]
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp2 --address 0.0.0.0
+CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp --address 0.0.0.0

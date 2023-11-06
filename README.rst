@@ -5,12 +5,12 @@
    :target: https://hub.docker.com/r/aklitzing/ausweisapp2/
 
 
-AusweisApp2 in Docker (Linux)
-=============================
+AusweisApp in Docker (Linux)
+============================
 This docker image contains a minimal OS (AlpineLinux) as a base image.
 
-It builds Qt6 and OpenSSL with the cmake library-script of AusweisApp2
-and builds AusweisApp2 itself.
+It builds Qt6 and OpenSSL with the cmake library-script of AusweisApp
+and builds AusweisApp itself.
 
 Also it contains ``pcscd`` with some additional card reader driver.
 
@@ -18,7 +18,7 @@ Also it contains ``pcscd`` with some additional card reader driver.
 
 Start
 -----
-You could start AusweisApp2 with this command:
+You could start AusweisApp with this command:
 
 ::
 
@@ -31,7 +31,7 @@ You could start AusweisApp2 with this command:
 
 
 If you are not familiar with Docker. You can add ``-d`` to ``docker run`` to detach from terminal and avoid logging
-of AusweisApp2. After you created a container and stopped it you can start it with ``docker start ausweisapp`` if
+of AusweisApp. After you created a container and stopped it you can start it with ``docker start ausweisapp`` if
 you used the provided name.
 
 
@@ -42,11 +42,11 @@ Troubleshooting
    - Just add ``-e http_proxy=PROXY:PORT -e https_proxy=PROXY:PORT`` to ``docker run`` cmdline.
 
 
-- I need AusweisApp2 in English or German.
+- I need AusweisApp in English or German.
    - Change ``-e LANG=$LANG`` to ``-e LANG=de`` or ``-e LANG=en``.
 
 
-- Window of AusweisApp2 is black/faulted.
+- Window of AusweisApp is black/faulted.
    - Looks like an OpenGL issue. Try to grab the border of the window and resize it.
      Sometimes it will refresh the buffers and repaint the window correctly.
 
