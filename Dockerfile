@@ -1,6 +1,6 @@
 FROM alpine:3.19
 
-ENV VERSION=2.0.1 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+ENV VERSION=2.0.3 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
 
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
