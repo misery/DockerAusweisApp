@@ -1,28 +1,24 @@
-FROM alpine:3.19
+# Stage 1: Build
+FROM alpine:3.19 AS builder
 
 ENV VERSION=2.1.1 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
 
-
 RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk --no-cache upgrade -a && \
-    apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid eudev-libs \
+    apk --no-cache add sudo ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid eudev-libs \
                        libxkbcommon libxcb xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
-                       mesa mesa-gl mesa-egl mesa-dri-gallium libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 sudo && \
+                       mesa mesa-gl mesa-egl mesa-dri-gallium libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 && \
     echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
     adduser ausweisapp -G wheel -s /bin/sh -D
 
 USER ausweisapp
 
 # Install development stuff
-# Get AusweisApp
-# Build Libraries
-# Build AusweisApp
-# Clean up unused stuff
-# Remove development stuff
 RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pcsc-lite-dev binutils-gold perl python3 wget \
                         mesa-dev libx11-dev libxkbcommon-dev fontconfig-dev freetype-dev \
                         xcb-util-wm-dev xcb-util-image-dev xcb-util-keysyms-dev \
-                        xcb-util-renderutil-dev libxcb-dev && \
+                        xcb-util-renderutil-dev xcb-util-cursor-dev xcb-util-xrm-dev \
+                        libxcb-dev && \
     \
     cd ~ && mkdir .config && mkdir build && cd build && \
     wget https://github.com/Governikus/AusweisApp2/releases/download/${VERSION}/AusweisApp-${VERSION}.tar.gz && \
@@ -46,7 +42,25 @@ RUN sudo apk --no-cache --virtual deps add patch cmake make ninja g++ pkgconf pc
     \
     sudo apk --no-cache del deps
 
+# Stage 2: Final
+FROM alpine:3.19
+
+ENV VERSION=2.1.1 QT_PLUGIN_PATH=/home/ausweisapp/libs/plugins
+
+RUN echo '@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+    apk --no-cache upgrade -a && \
+    apk --no-cache add ccid pcsc-lite pcsc-lite-libs tini pcsc-cyberjack acsccid eudev-libs \
+                       libxkbcommon libxcb xcb-util xcb-util-cursor xcb-util-renderutil xcb-util-xrm xcb-util-wm xcb-util-image xcb-util-keysyms \
+                       mesa mesa-gl mesa-egl mesa-dri-gallium libx11 xkeyboard-config fontconfig freetype ttf-dejavu libxkbcommon-x11 sudo && \
+    echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
+    adduser ausweisapp -G wheel -s /bin/sh -D
+
+USER ausweisapp
+
+COPY --from=builder /home/ausweisapp/libs /home/ausweisapp/libs
+COPY --from=builder /usr/local/bin/AusweisApp /usr/local/bin/AusweisApp
+COPY --from=builder /usr/local/share/AusweisApp /usr/local/share/AusweisApp
 
 VOLUME ["/home/ausweisapp/.config"]
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD /usr/sbin/pcscd && /usr/local/bin/AusweisApp --address 0.0.0.0
+CMD sudo /usr/sbin/pcscd && /usr/local/bin/AusweisApp --address 0.0.0.0
